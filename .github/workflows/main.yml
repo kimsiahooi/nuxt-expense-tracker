@@ -1,0 +1,28 @@
+name: 🚀 Deploy website on push
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run generate
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 153.92.8.66
+          username: u263620635.kimsiahooi
+          password: ${{ secrets.FTPPASSWORD }}
+          local-dir: './dist/'
+          server-dir: 'expenses/'
